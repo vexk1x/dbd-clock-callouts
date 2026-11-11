@@ -134,8 +134,8 @@ namespace DBD_Clock_Callouts
 
         private void UI(List<string> names, MapImages mimages)
         {
-            this.Size = new Size(500, 410);
-            this.ClientSize = new Size(500, 450);
+            this.Size = new Size(500, 530);
+            this.ClientSize = new Size(500, 530);
 
             RoundFCorners(8);
 
@@ -318,6 +318,34 @@ namespace DBD_Clock_Callouts
                 UpdImg();
             };
 
+            Panel Seperator4 = CreateSeperator(450);
+
+            TrackBar TransparentMap = new TrackBar()
+            {
+                TickFrequency = 1,
+                Minimum = 1,
+                Maximum = 100,
+                TickStyle = TickStyle.None,
+                Value = 100,
+                Size = new Size(200, 50),
+                Location = new Point(20, Seperator4.Bottom + 5),
+            };
+
+            TransparentMap.ValueChanged += delegate
+            {
+                if (Map == null || Map.IsDisposed)
+                    return;
+
+                Map.Opacity = (TransparentMap.Value / 100.0);
+            };
+
+            Label ltransparentmap = new Label()
+            {
+                ForeColor = _ForeColor,
+                AutoSize = true,
+                Text = "Map Transparency",
+            }; ltransparentmap.Location = new Point(TransparentMap.Left + (TransparentMap.ClientSize.Width - ltransparentmap.ClientSize.Width) / 2 + 5, TransparentMap.Bottom);
+
             Controls.AddRange(new Control[]
             {
                 Titlebar,
@@ -335,7 +363,10 @@ namespace DBD_Clock_Callouts
                 limgy,
                 Clickthrough,
                 PreventOutOfBounds,
-                ResetSize
+                ResetSize,
+                Seperator4,
+                TransparentMap,
+                ltransparentmap
             });
 
             Opacity = 0.99;
